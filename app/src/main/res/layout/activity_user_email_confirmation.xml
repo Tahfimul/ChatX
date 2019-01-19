@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorGrey">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textColor="@color/colorWhite"
+        android:textSize="24sp"
+        android:id="@+id/app_name"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/user_verfication_message"
+        android:textColor="@color/colorWhite"
+        android:textSize="24sp"
+        android:padding="20dp"
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_below="@id/app_name"
+        android:id="@+id/user_verification_message"/>
+
+    <Button
+        android:layout_below="@id/user_verification_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btn"
+        android:text="@string/user_btn_gotcha"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/heavy_rounded_corner_background"
+    />
+
+
+</RelativeLayout>

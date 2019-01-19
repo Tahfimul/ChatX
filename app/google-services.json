@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "683482405053",
+    "firebase_url": "https://servertest-43f21.firebaseio.com",
+    "project_id": "servertest-43f21",
+    "storage_bucket": "servertest-43f21.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:683482405053:android:2abb1b073e5c2266",
+        "android_client_info": {
+          "package_name": "com.doitbig.successway.chatx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "683482405053-qkjo3bdktvpkrfs1c6tc69nd1toqn9cc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.doitbig.successway.chatx",
+            "certificate_hash": "dff4bd3f177b86afb945bb6e9ff4a0d3402d2e6d"
+          }
+        },
+        {
+          "client_id": "683482405053-dgmakifrsu5didn8vkj40u1vn03oq5l5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyfVDTIxTDKTC65rNq13RJvqwjVVVqgfw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "683482405053-dgmakifrsu5didn8vkj40u1vn03oq5l5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
