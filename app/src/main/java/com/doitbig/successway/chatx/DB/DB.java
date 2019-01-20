@@ -1,17 +1,17 @@
 package com.doitbig.successway.chatx.DB;
 
 import android.support.annotation.NonNull;
-import com.doitbig.successway.chatx.Interfaces.ChatRepo;
+import com.doitbig.successway.chatx.Interfaces.Main;
 import com.doitbig.successway.chatx.LiveData.ChatDataLiveData;
+import com.doitbig.successway.chatx.LiveData.FriendsDataLiveData;
 import com.doitbig.successway.chatx.Models.ChatData;
 import com.google.firebase.database.*;
 
-public class DB implements ChatRepo {
+public class DB implements Main {
     DatabaseReference mRef = FirebaseDatabase.getInstance().getReference();
 
-
     @Override
-    public ChatDataLiveData getMessage(String location) {
+    public FriendsDataLiveData getFriends(String location) {
         return null;
     }
 

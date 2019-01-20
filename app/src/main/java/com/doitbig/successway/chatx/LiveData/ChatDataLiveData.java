@@ -3,6 +3,8 @@ package com.doitbig.successway.chatx.LiveData;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import com.doitbig.successway.chatx.DB.Firebase;
+import com.doitbig.successway.chatx.ExceptionMessageHandler;
 import com.doitbig.successway.chatx.Models.ChatData;
 import com.doitbig.successway.chatx.Models.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -14,20 +16,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
-public class ChatDataLiveData extends LiveData<TreeMap<String, ChatData>> {
+public class ChatDataLiveData extends LiveData<List<ChatData>> {
 
     //Firebase Auth
     FirebaseAuth mAuth;
     FirebaseUser mUser;
     String mUserId;
+    String mFriendUser;
 
     DatabaseReference mRef;
     ValueEventListener mEventLisenter;
 
-    TreeMap<String, ChatData> hm = new TreeMap<>();
-    public ChatDataLiveData(DatabaseReference mRef)
+    ExceptionMessageHandler mException = new ExceptionMessageHandler();
+
+    private List<ChatData> mMessages = new ArrayList<>();
+    public ChatDataLiveData(String mFriendUser)
     {
-        this.mRef = mRef;
+        mRef = FirebaseDatabase.getInstance().getReference();
+        this.mFriendUser = mFriendUser;
     }
 
     @Override
@@ -39,35 +45,35 @@ public class ChatDataLiveData extends LiveData<TreeMap<String, ChatData>> {
             if (mUser!=null)
             {
                 mUserId = mUser.getUid();
-                long timeStamp = System.currentTimeMillis()/1000L;
-                FirebaseDatabase.getInstance().getReference().child("Seen").child(mUserId).setValue(timeStamp);
-                FirebaseDatabase.getInstance().getReference().child("Users").child(mUserId).setValue("Active");
-                mEventLisenter = mRef.child(mUserId).addValueEventListener(new ValueEventListener() {
+                mEventLisenter = mRef.child("Chats").child(mUserId).child(mFriendUser).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        hm.clear();
+                        if (mMessages!=null)
+                            mMessages.clear();
                         for(DataSnapshot dS: dataSnapshot.getChildren())
                         {
                             for(DataSnapshot Ds: dS.getChildren())
                             {
-                                hm.put(dS.getKey(), new ChatData(dS.getKey(),Ds.getValue().toString(), Ds.getKey()));
+                                mMessages.add(new ChatData(dS.getKey(),Ds.getValue().toString(), Ds.getKey()));
                             }
                         }
-                        setValue(hm);
+                        setValue(mMessages);
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                        mException.setError(databaseError.getMessage());
+                        setValue(null);
                     }
                 });
             }
 
             else
-                Log.i("ChatLiveData()", "Error");
+            {
+                mException.setError("Couldn't retrieve user data. Try again.");
+                setValue(null);
+            }
         });
-
-
 
         mRef.keepSynced(true);
 
@@ -76,7 +82,8 @@ public class ChatDataLiveData extends LiveData<TreeMap<String, ChatData>> {
     @Override
     protected void onInactive() {
         super.onInactive();
-        mRef.removeEventListener(mEventLisenter);
+        if (mEventLisenter!=null)
+            mRef.removeEventListener(mEventLisenter);
     }
 
 }

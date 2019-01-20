@@ -2,4 +2,5 @@
 	<string name="app_name">ChatX</string>
 	<string name="user_verfication_message">Hello there,\nPlease verify your email address using the link sent to your email.</string>
 	<string name="user_btn_gotcha">Gotcha</string>
+	<string name="user_forgot_password">Forgot password? <b>Get help</b></string>
 </resources>

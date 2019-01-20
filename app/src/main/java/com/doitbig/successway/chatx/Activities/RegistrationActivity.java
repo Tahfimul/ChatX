@@ -1,4 +1,4 @@
-package com.doitbig.successway.chatx;
+package com.doitbig.successway.chatx.Activities;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.doitbig.successway.chatx.ExceptionMessageHandler;
 import com.doitbig.successway.chatx.Models.User;
+import com.doitbig.successway.chatx.R;
 import com.doitbig.successway.chatx.ViewModels.RegisterViewModel;
 
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener {

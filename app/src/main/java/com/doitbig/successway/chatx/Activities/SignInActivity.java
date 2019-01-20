@@ -1,4 +1,4 @@
-package com.doitbig.successway.chatx;
+package com.doitbig.successway.chatx.Activities;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -8,8 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+import com.doitbig.successway.chatx.ExceptionMessageHandler;
 import com.doitbig.successway.chatx.Models.User;
+import com.doitbig.successway.chatx.R;
 import com.doitbig.successway.chatx.ViewModels.SignInViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -19,7 +22,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     Button registerBtn;
     EditText userEmail;
     EditText userPassword;
+    TextView userForgotPassword;
 
+    //Firebase
     FirebaseAuth mAuth;
 
     SignInViewModel mViewModel;
@@ -34,12 +39,14 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         registerBtn = findViewById(R.id.registerBtn);
         userEmail = findViewById(R.id.user_email);
         userPassword = findViewById(R.id.user_password);
+        userForgotPassword = findViewById(R.id.user_forgot_password);
 
         mAuth = FirebaseAuth.getInstance();
 
         mViewModel = ViewModelProviders.of(this).get(SignInViewModel.class);
 
         btn.setOnClickListener(this);
+        userForgotPassword.setOnClickListener(this);
         registerBtn.setOnClickListener(this);
 
         mViewModel.getAuthResult().observe(this, Observer->{
@@ -64,6 +71,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.registerBtn:
                 startRegistration();
                 break;
+            case R.id.user_forgot_password:
+                startForgotPassword();
+                break;
 
         }
 
@@ -79,5 +89,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     {
         Intent register = new Intent(this, RegistrationActivity.class);
         startActivity(register);
+    }
+
+    private void startForgotPassword()
+    {
+        Intent forgotPassword = new Intent(this, ForgotPasswordActivity.class);
+        startActivity(forgotPassword);
     }
 }

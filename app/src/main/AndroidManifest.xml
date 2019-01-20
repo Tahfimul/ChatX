@@ -9,7 +9,7 @@
 			android:roundIcon="@mipmap/ic_launcher_round"
 			android:supportsRtl="true"
 			android:theme="@style/AppTheme">
-		<activity android:name=".SignInActivity"
+		<activity android:name=".Activities.SignInActivity"
 				  android:configChanges="orientation|screenSize">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
@@ -17,22 +17,37 @@
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
-		<activity android:name=".RegistrationActivity"
+		<activity android:name=".Activities.ForgotPasswordActivity"
 				  android:configChanges="orientation|screenSize">
 			<intent-filter>
 
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
-		<activity android:name=".UserEmailConfirmation"
+		<activity android:name=".Activities.RegistrationActivity"
 				  android:configChanges="orientation|screenSize">
 			<intent-filter>
 
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
-		<activity android:name=".MainActivity"
+		<activity android:name=".Activities.UserEmailConfirmation"
 				  android:configChanges="orientation|screenSize">
+			<intent-filter>
+
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+		<activity android:name=".Activities.MainActivity"
+				  android:configChanges="orientation|screenSize">
+			<intent-filter>
+
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+		<activity android:name=".Activities.ChatWindowActivity"
+				  android:configChanges="orientation|screenSize"
+				android:theme="@style/AppBaseTheme">
 			<intent-filter>
 
 				<category android:name="android.intent.category.LAUNCHER"/>
