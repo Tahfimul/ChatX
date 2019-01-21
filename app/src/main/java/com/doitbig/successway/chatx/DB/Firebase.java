@@ -1,11 +1,14 @@
 package com.doitbig.successway.chatx.DB;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import com.doitbig.successway.chatx.ExceptionMessageHandler;
+import com.doitbig.successway.chatx.Interfaces.ChatWindow;
 import com.doitbig.successway.chatx.Interfaces.ForgotPassword;
 import com.doitbig.successway.chatx.Interfaces.SignIn;
+import com.doitbig.successway.chatx.Models.ChatData;
 import com.doitbig.successway.chatx.Models.User;
 import com.doitbig.successway.chatx.Interfaces.UserRegister;
 import com.google.firebase.auth.FirebaseAuth;
@@ -13,6 +16,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.List;
 
 public class Firebase extends AppCompatActivity implements SignIn, UserRegister, ForgotPassword {
 
@@ -36,9 +41,9 @@ public class Firebase extends AppCompatActivity implements SignIn, UserRegister,
                      if (mUser.isEmailVerified())
                      {
                          long timeStamp = System.currentTimeMillis()/1000L;
-                         FirebaseDatabase.getInstance().getReference().child("Users").child(mUser.getUid()).child("Username").setValue(mUser.getDisplayName());
-                         FirebaseDatabase.getInstance().getReference().child("Users").child(mUser.getUid()).child("Timestamp").setValue(timeStamp);
-                         FirebaseDatabase.getInstance().getReference().child("Users").child(mUser.getUid()).child("Active").setValue(true);
+                         mRef.child("Users").child(mUser.getUid()).child("Username").setValue(mUser.getDisplayName());
+                         mRef.child("Users").child(mUser.getUid()).child("Timestamp").setValue(timeStamp);
+                         mRef.child("Users").child(mUser.getUid()).child("Active").setValue(true);
                          result.setValue(true);
                      }
 
@@ -117,5 +122,19 @@ public class Firebase extends AppCompatActivity implements SignIn, UserRegister,
     @Override
     public MutableLiveData<Boolean> getForgotPasswordResult() {
         return result;
+    }
+
+    public void sendMessage(String mMessage, String mFriendUID) {
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.addAuthStateListener(firebaseAuth -> {
+            mUser = firebaseAuth.getCurrentUser();
+            if (mUser!=null)
+            {
+                long timeStamp = System.currentTimeMillis()/1000L;
+                mRef = FirebaseDatabase.getInstance().getReference();
+                mRef.child("Chats").child(mUser.getUid()).child(mFriendUID).child(String.valueOf(timeStamp)).child(mUser.getUid()).setValue(mMessage);
+                mRef.child("Chats").child(mFriendUID).child(mUser.getUid()).child(String.valueOf(timeStamp)).child(mUser.getUid()).setValue(mMessage);
+            }
+        });
     }
 }

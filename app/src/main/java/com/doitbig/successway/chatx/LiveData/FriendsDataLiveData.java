@@ -2,6 +2,7 @@ package com.doitbig.successway.chatx.LiveData;
 
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import com.doitbig.successway.chatx.ExceptionMessageHandler;
 import com.doitbig.successway.chatx.Models.FriendData;
 import com.google.firebase.auth.FirebaseAuth;
@@ -10,8 +11,9 @@ import com.google.firebase.database.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
-public class FriendsDataLiveData extends LiveData<List<FriendData>> {
+public class FriendsDataLiveData extends LiveData<TreeMap<String, FriendData>> {
 
     //Firebase
     FirebaseAuth mAuth;
@@ -23,7 +25,7 @@ public class FriendsDataLiveData extends LiveData<List<FriendData>> {
 
     ExceptionMessageHandler mException = new ExceptionMessageHandler();
 
-    List<FriendData> mData = new ArrayList<>();
+    TreeMap<String, FriendData> mData = new TreeMap<>();
 
     public FriendsDataLiveData(String location)
     {
@@ -39,15 +41,29 @@ public class FriendsDataLiveData extends LiveData<List<FriendData>> {
             if (mUser!=null)
             {
                 mUID = mUser.getUid();
-                mRef.child(mUID).addValueEventListener(new ValueEventListener() {
+               mValueEventListener = mRef.child(mUID).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        mData.clear();
                         for(DataSnapshot dS:dataSnapshot.getChildren())
                         {
-                            mData.add(new FriendData(dS.getKey(), dS.getValue().toString()));
+                            getFriendUserDetails(dS.getKey());
                         }
-                        setValue(mData);
+                    }
+
+                    private void getFriendUserDetails(String key) {
+                        FirebaseDatabase.getInstance().getReference().child("Users")
+                                .child(key).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                mData.put(key, new FriendData(key, dataSnapshot.child("Username").getValue().toString(), dataSnapshot.child("Active").getValue().toString()));
+                                setValue(mData);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
                     }
 
                     @Override
@@ -56,6 +72,7 @@ public class FriendsDataLiveData extends LiveData<List<FriendData>> {
                         mException.setError(databaseError.getMessage());
                     }
                 });
+                mRef.keepSynced(true);
 
             }
             else

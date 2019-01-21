@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 import com.doitbig.successway.chatx.Adapters.MainReyclerViewAdapter;
-import com.doitbig.successway.chatx.Decor.FriendsAdapterDecor;
+import com.doitbig.successway.chatx.Decor.MainAdapterDecor;
 import com.doitbig.successway.chatx.ExceptionMessageHandler;
 import com.doitbig.successway.chatx.R;
 import com.doitbig.successway.chatx.ViewModels.MainViewModel;
@@ -38,10 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
         mException = new ExceptionMessageHandler();
         mAdapter = new MainReyclerViewAdapter();
-        recyclerView.addItemDecoration(new FriendsAdapterDecor());
+        recyclerView.addItemDecoration(new MainAdapterDecor());
         recyclerView.setAdapter(mAdapter);
 
-        mViewModel.getFriends("Friends").observe(this, Observer ->{
+        mViewModel.getFriends("Chats").observe(this, Observer ->{
             if (Observer!=null)
             {
                 ((MainReyclerViewAdapter) mAdapter).setData(Observer);

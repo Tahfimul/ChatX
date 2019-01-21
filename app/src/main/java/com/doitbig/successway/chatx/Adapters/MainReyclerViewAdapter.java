@@ -11,7 +11,11 @@ import android.widget.TextView;
 import com.doitbig.successway.chatx.Activities.ChatWindowActivity;
 import com.doitbig.successway.chatx.Models.FriendData;
 import com.doitbig.successway.chatx.R;
+import com.doitbig.successway.chatx.Repos.ChatWindowRepo;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 public class MainReyclerViewAdapter extends RecyclerView.Adapter<MainReyclerViewAdapter.CustomViewHolder> {
 
@@ -28,14 +32,22 @@ public class MainReyclerViewAdapter extends RecyclerView.Adapter<MainReyclerView
 
     }
 
-    private List<FriendData> mData;
+    private List<FriendData> mData = new ArrayList<>();
 
     public MainReyclerViewAdapter(){
 
     }
-    public void setData(List<FriendData> mData)
+    public void setData(TreeMap<String, FriendData> mData)
     {
-        this.mData = mData;
+        convertToList(mData);
+    }
+
+    private void convertToList(TreeMap<String, FriendData> mData) {
+        this.mData.clear();
+        for (String key:mData.keySet())
+        {
+            this.mData.add(mData.get(key));
+        }
         notifyDataSetChanged();
     }
 
@@ -51,8 +63,8 @@ public class MainReyclerViewAdapter extends RecyclerView.Adapter<MainReyclerView
         customViewHolder.mUserName.setText(mData.get(i).getmUser());
         customViewHolder.mUserStatus.setText(mData.get(i).getmStatus());
         customViewHolder.mParentLayout.setOnClickListener(v -> {
+            new ChatWindowRepo().setFriendUser(mData.get(i));
             Intent chatWindow = new Intent(customViewHolder.itemView.getContext(), ChatWindowActivity.class);
-            chatWindow.putExtra("user_id", mData.get(i).getmUser());
             customViewHolder.itemView.getContext().startActivity(chatWindow);
 
         });

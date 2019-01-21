@@ -54,7 +54,11 @@ public class ChatDataLiveData extends LiveData<List<ChatData>> {
                         {
                             for(DataSnapshot Ds: dS.getChildren())
                             {
-                                mMessages.add(new ChatData(dS.getKey(),Ds.getValue().toString(), Ds.getKey()));
+                                if (Ds.getKey().equals(mUserId))
+                                    mMessages.add(new ChatData(0, dS.getKey(),Ds.getValue().toString(), Ds.getKey()));
+                                else
+                                    mMessages.add(new ChatData(1, dS.getKey(),Ds.getValue().toString(), Ds.getKey()));
+
                             }
                         }
                         setValue(mMessages);
@@ -66,6 +70,8 @@ public class ChatDataLiveData extends LiveData<List<ChatData>> {
                         setValue(null);
                     }
                 });
+
+                mRef.keepSynced(true);
             }
 
             else
@@ -75,7 +81,6 @@ public class ChatDataLiveData extends LiveData<List<ChatData>> {
             }
         });
 
-        mRef.keepSynced(true);
 
     }
 

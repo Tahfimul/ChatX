@@ -5,17 +5,29 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
+import com.doitbig.successway.chatx.Adapters.ChatWindowRecyclerViewAdapter;
 import com.doitbig.successway.chatx.ExceptionMessageHandler;
 import com.doitbig.successway.chatx.R;
 import com.doitbig.successway.chatx.ViewModels.ChatWindowViewModel;
 
-public class ChatWindowActivity extends AppCompatActivity {
-
-    private String mFriendUsername;
+public class ChatWindowActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Toolbar mToolbar;
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mRecyclerViewAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+    private Button mSendBtn;
+    private EditText mMessage;
 
     private ChatWindowViewModel mViewModel;
 
@@ -28,24 +40,45 @@ public class ChatWindowActivity extends AppCompatActivity {
 
         mToolbar = findViewById(R.id.toolbar);
 
-        mFriendUsername = getIntent().getStringExtra("user_id");
+        mRecyclerView = findViewById(R.id.recyclerView);
 
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle(mFriendUsername);
+        mMessage = findViewById(R.id.message_txt);
+        mSendBtn = findViewById(R.id.message_send);
+        mSendBtn.setOnClickListener(this);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerViewAdapter = new ChatWindowRecyclerViewAdapter();
+        mRecyclerView.setAdapter(mRecyclerViewAdapter);
+
+        mViewModel = ViewModelProviders.of(this).get(ChatWindowViewModel.class);
 
         mException = new ExceptionMessageHandler();
 
-        mViewModel = ViewModelProviders.of(this).get(ChatWindowViewModel.class);
-        mViewModel.getMessages(mFriendUsername).observe(this, Observer->{
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle(mViewModel.getFriendUser().getmUser());
+        getSupportActionBar().setSubtitle(mViewModel.getFriendUser().getmStatus());
+
+        mViewModel.getMessages(mViewModel.getFriendUser().getmUID()).observe(this, Observer->{
             if (Observer!=null)
             {
-
+                ((ChatWindowRecyclerViewAdapter) mRecyclerViewAdapter).setData(Observer);
             }
             else
                 Toast.makeText(this, mException.getError(), Toast.LENGTH_SHORT).show();
         });
 
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.message_send)
+        {
+            mViewModel.sendMessage(mMessage.getText().toString());
+        }
     }
 }

@@ -5,8 +5,9 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import com.doitbig.successway.chatx.R;
 
-public class FriendsAdapterDecor extends RecyclerView.ItemDecoration {
+public class MainAdapterDecor extends RecyclerView.ItemDecoration {
 
 
     @Override

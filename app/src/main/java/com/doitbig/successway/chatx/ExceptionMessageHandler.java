@@ -9,13 +9,11 @@ public class ExceptionMessageHandler implements ExceptionMessageHandlerInterface
 
     @Override
     public void setError(String error) {
-        Log.i("ExceptionMessage()", error);
         Error = error;
     }
 
     @Override
     public String getError() {
-        Log.i("ExceptionMessage()", this.Error);
         return this.Error;
     }
 }

@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ChatWindow {
     public LiveData<List<ChatData>> getMessages(String mFriendUser);
+
+    public void sendMessage(String mMessage);
 }
