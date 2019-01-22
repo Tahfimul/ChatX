@@ -3,6 +3,7 @@ package com.doitbig.successway.chatx.Adapters;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,8 @@ public class MainReyclerViewAdapter extends RecyclerView.Adapter<MainReyclerView
         this.mData.clear();
         for (String key:mData.keySet())
         {
+
+            Log.i("MainAdapter()",""+ mData.get(key).getmUser());
             this.mData.add(mData.get(key));
         }
         notifyDataSetChanged();
@@ -60,6 +63,7 @@ public class MainReyclerViewAdapter extends RecyclerView.Adapter<MainReyclerView
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder customViewHolder, int i) {
+
         customViewHolder.mUserName.setText(mData.get(i).getmUser());
         customViewHolder.mUserStatus.setText(mData.get(i).getmStatus());
         customViewHolder.mParentLayout.setOnClickListener(v -> {

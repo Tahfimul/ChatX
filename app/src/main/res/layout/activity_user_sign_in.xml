@@ -18,7 +18,7 @@
     <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/light_rounded_corner_background"
+            android:background="@drawable/light_rounded_corner_background_white"
             android:layout_below="@id/app_name"
             android:textColor="@color/colorWhite"
             android:hint="Email"
@@ -31,7 +31,7 @@
     <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/light_rounded_corner_background"
+            android:background="@drawable/light_rounded_corner_background_white"
             android:layout_below="@id/user_email"
             android:textColor="@color/colorWhite"
             android:hint="Password"

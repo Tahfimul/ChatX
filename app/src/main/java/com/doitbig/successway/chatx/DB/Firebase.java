@@ -5,17 +5,14 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import com.doitbig.successway.chatx.ExceptionMessageHandler;
-import com.doitbig.successway.chatx.Interfaces.ChatWindow;
-import com.doitbig.successway.chatx.Interfaces.ForgotPassword;
-import com.doitbig.successway.chatx.Interfaces.SignIn;
-import com.doitbig.successway.chatx.Models.ChatData;
+import com.doitbig.successway.chatx.Interfaces.*;
+import com.doitbig.successway.chatx.LiveData.AllUsersLiveData;
 import com.doitbig.successway.chatx.Models.User;
-import com.doitbig.successway.chatx.Interfaces.UserRegister;
+import com.doitbig.successway.chatx.Models.UserData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.*;
 
 import java.util.List;
 
@@ -134,6 +131,18 @@ public class Firebase extends AppCompatActivity implements SignIn, UserRegister,
                 mRef = FirebaseDatabase.getInstance().getReference();
                 mRef.child("Chats").child(mUser.getUid()).child(mFriendUID).child(String.valueOf(timeStamp)).child(mUser.getUid()).setValue(mMessage);
                 mRef.child("Chats").child(mFriendUID).child(mUser.getUid()).child(String.valueOf(timeStamp)).child(mUser.getUid()).setValue(mMessage);
+            }
+        });
+    }
+
+    public void sendNewMessage(String mFriendUser, String mMessage)
+    {
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.addAuthStateListener(firebaseAuth -> {
+            mUser = firebaseAuth.getCurrentUser();
+            if (mAuth!=null)
+            {
+
             }
         });
     }

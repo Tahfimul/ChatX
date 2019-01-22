@@ -33,7 +33,6 @@ public class ChatWindowRepo implements ChatWindow {
 
     public FriendData getFriendUser()
     {
-        Log.i("ChatWindowRepo()", this.mFriendUser.getmUser());
         return this.mFriendUser;
     }
 
