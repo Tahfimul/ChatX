@@ -1,7 +1,5 @@
 package com.doitbig.successway.chatx.Activities;
 
-import android.app.ProgressDialog;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,23 +10,20 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.doitbig.successway.chatx.Adapters.StartNewConversationSearchRecyclerViewAdapter;
 import com.doitbig.successway.chatx.ExceptionMessageHandler;
-import com.doitbig.successway.chatx.Interfaces.ChatWindow;
-import com.doitbig.successway.chatx.Models.FriendData;
-import com.doitbig.successway.chatx.Models.UserData;
 import com.doitbig.successway.chatx.R;
-import com.doitbig.successway.chatx.Repos.ChatWindowRepo;
 import com.doitbig.successway.chatx.ViewModels.StartNewConversationViewModel;
 
 public class StartNewConversation extends AppCompatActivity implements View.OnClickListener{
 
     private FloatingActionButton mSendNewMessage;
     private EditText mFriendUser;
+    private ProgressBar mProgressBar;
 
     private StartNewConversationViewModel mViewModel;
 
@@ -38,8 +33,6 @@ public class StartNewConversation extends AppCompatActivity implements View.OnCl
     private RecyclerView.Adapter mRecyclerViewAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private ProgressDialog mProgressDiag;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +40,8 @@ public class StartNewConversation extends AppCompatActivity implements View.OnCl
         mSendNewMessage = findViewById(R.id.send_new_message_btn);
         mFriendUser = findViewById(R.id.friend_user_name);
         mRecyclerView = findViewById(R.id.recyclerView);
+        mProgressBar = findViewById(R.id.progressbar);
+        mProgressBar.setVisibility(View.VISIBLE);
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerViewAdapter = new StartNewConversationSearchRecyclerViewAdapter();
@@ -60,15 +55,12 @@ public class StartNewConversation extends AppCompatActivity implements View.OnCl
 
         mSendNewMessage.setOnClickListener(this);
 
-        mProgressDiag = new ProgressDialog(this);
-        mProgressDiag.setMessage("Retrieving data. Check your internet connection.");
-        mProgressDiag.show();
-
         mViewModel.getAllUsers().observe(this, Observer->{
+            mProgressBar.setVisibility(View.INVISIBLE);
             if (Observer!=null)
             {
-                mProgressDiag.dismiss();
                 ((StartNewConversationSearchRecyclerViewAdapter) mRecyclerViewAdapter).setData(Observer);
+                setSearchQueryListener();
 
             }
             else
@@ -76,8 +68,6 @@ public class StartNewConversation extends AppCompatActivity implements View.OnCl
 
 
         });
-
-        setSearchQueryListener();
 
     }
 

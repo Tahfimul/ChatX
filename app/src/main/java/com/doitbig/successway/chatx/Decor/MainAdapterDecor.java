@@ -1,11 +1,9 @@
 package com.doitbig.successway.chatx.Decor;
 
-import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import com.doitbig.successway.chatx.R;
 
 public class MainAdapterDecor extends RecyclerView.ItemDecoration {
 

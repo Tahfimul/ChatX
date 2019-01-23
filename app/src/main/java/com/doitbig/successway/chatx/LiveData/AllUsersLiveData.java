@@ -2,7 +2,6 @@ package com.doitbig.successway.chatx.LiveData;
 
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import com.doitbig.successway.chatx.ExceptionMessageHandler;
 import com.doitbig.successway.chatx.Models.UserData;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,7 +37,8 @@ public class AllUsersLiveData extends LiveData<List<UserData>> {
                             mUserData.clear();
                         for (DataSnapshot dS:dataSnapshot.getChildren())
                         {
-                            mUserData.add(new UserData(dS.getKey(), dS.child("Username").getValue().toString()));
+                            if (!dS.getKey().equals(mUser.getUid()))
+                                mUserData.add(new UserData(dS.getKey(), dS.child("Username").getValue().toString(), Boolean.valueOf(dS.child("Active").getValue().toString()), Long.valueOf(dS.child("Timestamp").getValue().toString())));
                         }
                         setValue(mUserData);
                     }

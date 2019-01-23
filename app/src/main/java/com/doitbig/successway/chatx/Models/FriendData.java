@@ -3,13 +3,18 @@ package com.doitbig.successway.chatx.Models;
 public class FriendData {
     String mUID;
     String mUser;
-    String mStatus;
+    String mLatestMessage;
+    boolean mStatus;
+    long mTimeStamp;
+    String mActiveMessage;
 
-    public FriendData(String mUID, String mUser, String mStatus)
+    public FriendData(String mUID, String mUser, String mLatestMessage, boolean mStatus, long mTimeStamp)
     {
         this.mUID = mUID;
         this.mUser = mUser;
+        this.mLatestMessage = mLatestMessage;
         this.mStatus = mStatus;
+        this.mTimeStamp = mTimeStamp;
     }
 
     public void setmUID(String mUID) {
@@ -28,11 +33,35 @@ public class FriendData {
         return mUser;
     }
 
-    public void setmStatus(String mStatus) {
+    public void setmLatestMessage(String mLatestMessage) {
+        this.mLatestMessage = mLatestMessage;
+    }
+
+    public String getmLatestMessage() {
+        return mLatestMessage;
+    }
+
+    public void setmStatus(boolean mStatus) {
         this.mStatus = mStatus;
     }
 
-    public String getmStatus() {
+    public boolean isActive() {
         return mStatus;
+    }
+
+    public void setmTimeStamp(long mTimeStamp) {
+        this.mTimeStamp = mTimeStamp;
+    }
+
+    public long getmTimeStamp() {
+        return mTimeStamp;
+    }
+
+    public String getmActiveMessage() {
+        return mActiveMessage;
+    }
+
+    public void setmActiveMessage(String mActiveMessage) {
+        this.mActiveMessage = mActiveMessage;
     }
 }

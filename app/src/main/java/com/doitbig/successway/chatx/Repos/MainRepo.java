@@ -18,4 +18,9 @@ public class MainRepo implements Main {
     public void postMessage(ChatData mData) {
         mDB.postMessage(mData);
     }
+
+    public void setUserSignedOut()
+    {
+        mDB.setUserSignedOut();
+    }
 }

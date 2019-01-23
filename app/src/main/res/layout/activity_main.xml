@@ -16,6 +16,23 @@
 
 	</android.support.v7.widget.RecyclerView>
 
+	<ProgressBar
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerInParent="true"
+			android:id="@+id/progressbar"/>
+
+	<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Sign Out"
+			android:id="@+id/sign_out_btn"
+			android:color="@color/colorGrey"
+			android:background="@drawable/light_rounded_corner_background_white"
+			android:layout_margin="16dp"
+			android:padding="10dp"
+			android:layout_alignParentBottom="true"/>
+
 	<android.support.design.widget.FloatingActionButton
 			android:id="@+id/add_message"
 			android:layout_width="wrap_content"

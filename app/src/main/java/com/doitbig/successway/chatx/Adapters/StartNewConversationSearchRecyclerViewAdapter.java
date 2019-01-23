@@ -1,22 +1,18 @@
 package com.doitbig.successway.chatx.Adapters;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.doitbig.successway.chatx.Models.FriendData;
 import com.doitbig.successway.chatx.Models.UserData;
 import com.doitbig.successway.chatx.R;
 import com.doitbig.successway.chatx.Repos.ChatWindowRepo;
-import com.doitbig.successway.chatx.ViewModels.StartNewConversationViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,25 +21,33 @@ public class StartNewConversationSearchRecyclerViewAdapter extends RecyclerView.
 
     private class CustomViewHolder extends RecyclerView.ViewHolder{
 
+        ImageView mUserStatusIndicator;
         TextView mUsername;
         CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             mUsername = itemView.findViewById(R.id.user_name);
+            mUserStatusIndicator = itemView.findViewById(R.id.status_indicator);
         }
 
         void bind(UserData mUser)
         {
             mUsername.setText(mUser.getmUsername());
-            setHighlighted(mUser);
+            setIsHighlighted(mUser);
+            setStatusIndicator(mUser);
         }
 
-        private void setHighlighted(UserData mUser) {
-            if (mUser.ismHighlighted()) {
+        private void setIsHighlighted(UserData mUser) {
+            if (mUser.ismHighlighted())
                 mUsername.setBackgroundResource(R.drawable.light_rounded_corner_background_grey);
-            }
-            else {
+            else
                 mUsername.setBackgroundResource(0);
-            }
+        }
+
+        private void setStatusIndicator(UserData mUser) {
+            if (mUser.isUserActive())
+                mUserStatusIndicator.setBackgroundResource(R.drawable.ic_flat_user_status_active);
+            else
+                mUserStatusIndicator.setBackgroundResource(R.drawable.ic_flat_user_status_inactive);
         }
     }
 
@@ -81,13 +85,12 @@ public class StartNewConversationSearchRecyclerViewAdapter extends RecyclerView.
                     mCurrentHighlightedUser = mUsers.get(i);
                     mCurrentHighlightedUser.setmHighlighted(true);
                     mCurrentHighLightedPosition = i;
-                    new ChatWindowRepo().setFriendUser(new FriendData(mUsers.get(i).getmUID(), mUsers.get(i).getmUsername(), ""));
+                    new ChatWindowRepo().setFriendUser((new FriendData(mCurrentHighlightedUser.getmUID(), mCurrentHighlightedUser.getmUsername(), "" ,mCurrentHighlightedUser.isUserActive(), mCurrentHighlightedUser.getmTimeStamp())));
                 }
                 else if (mCurrentHighlightedUser.getmUsername().equals(mUsers.get(i).getmUsername())&&mCurrentHighLightedPosition==i) {
                     mCurrentHighlightedUser.setmHighlighted(false);
                     mCurrentHighlightedUser = null;
                     mCurrentHighLightedPosition = -1;
-                    new ChatWindowRepo().setFriendUser(new FriendData(null, null, null));
                 }
             }
             else
@@ -95,7 +98,7 @@ public class StartNewConversationSearchRecyclerViewAdapter extends RecyclerView.
                 mUsers.get(i).setmHighlighted(true);
                 mCurrentHighlightedUser = mUsers.get(i);
                 mCurrentHighLightedPosition = i;
-                new ChatWindowRepo().setFriendUser(new FriendData(mUsers.get(i).getmUID(), mUsers.get(i).getmUsername(), ""));
+                new ChatWindowRepo().setFriendUser(new FriendData(mCurrentHighlightedUser.getmUID(), mCurrentHighlightedUser.getmUsername(), "" ,mCurrentHighlightedUser.isUserActive(), mCurrentHighlightedUser.getmTimeStamp()));
             }
 
             notifyDataSetChanged();

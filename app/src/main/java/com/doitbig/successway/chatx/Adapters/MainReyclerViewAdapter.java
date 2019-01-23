@@ -3,10 +3,10 @@ package com.doitbig.successway.chatx.Adapters;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.doitbig.successway.chatx.Activities.ChatWindowActivity;
@@ -22,13 +22,15 @@ public class MainReyclerViewAdapter extends RecyclerView.Adapter<MainReyclerView
 
     public static class CustomViewHolder extends RecyclerView.ViewHolder{
         LinearLayout mParentLayout;
+        ImageView mUserSatusIndicator;
         TextView mUserName;
-        TextView mUserStatus;
+        TextView mLatestChat;
         CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             mParentLayout = itemView.findViewById(R.id.parent);
+            mUserSatusIndicator = itemView.findViewById(R.id.status_indicator);
             mUserName = itemView.findViewById(R.id.user_name);
-            mUserStatus = itemView.findViewById(R.id.user_status);
+            mLatestChat = itemView.findViewById(R.id.latest_chat);
         }
 
     }
@@ -47,8 +49,6 @@ public class MainReyclerViewAdapter extends RecyclerView.Adapter<MainReyclerView
         this.mData.clear();
         for (String key:mData.keySet())
         {
-
-            Log.i("MainAdapter()",""+ mData.get(key).getmUser());
             this.mData.add(mData.get(key));
         }
         notifyDataSetChanged();
@@ -64,8 +64,13 @@ public class MainReyclerViewAdapter extends RecyclerView.Adapter<MainReyclerView
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder customViewHolder, int i) {
 
+        if (mData.get(i).isActive())
+            customViewHolder.mUserSatusIndicator.setBackgroundResource(R.drawable.ic_round_user_status_active);
+        else
+            customViewHolder.mUserSatusIndicator.setBackgroundResource(R.drawable.ic_round_user_status_inactive);
+
         customViewHolder.mUserName.setText(mData.get(i).getmUser());
-        customViewHolder.mUserStatus.setText(mData.get(i).getmStatus());
+        customViewHolder.mLatestChat.setText(mData.get(i).getmLatestMessage());
         customViewHolder.mParentLayout.setOnClickListener(v -> {
             new ChatWindowRepo().setFriendUser(mData.get(i));
             Intent chatWindow = new Intent(customViewHolder.itemView.getContext(), ChatWindowActivity.class);

@@ -1,14 +1,13 @@
 package com.doitbig.successway.chatx.Activities;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -59,8 +58,7 @@ public class ChatWindowActivity extends AppCompatActivity implements View.OnClic
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle(mViewModel.getFriendUser().getmUser());
-        getSupportActionBar().setSubtitle(mViewModel.getFriendUser().getmStatus());
+        getSupportActionBar().setSubtitle(mViewModel.getFriendUser().getmActiveMessage());
 
         mViewModel.getMessages(mViewModel.getFriendUser().getmUID()).observe(this, Observer->{
             if (Observer!=null)
@@ -80,5 +78,16 @@ public class ChatWindowActivity extends AppCompatActivity implements View.OnClic
         {
             mViewModel.sendMessage(mMessage.getText().toString());
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startMain();
+    }
+
+    private void startMain() {
+        Intent main = new Intent(this, MainActivity.class);
+        startActivity(main);
     }
 }

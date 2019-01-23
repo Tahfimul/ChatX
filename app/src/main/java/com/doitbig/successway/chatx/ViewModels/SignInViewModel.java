@@ -1,6 +1,5 @@
 package com.doitbig.successway.chatx.ViewModels;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import com.doitbig.successway.chatx.ExceptionMessageHandler;

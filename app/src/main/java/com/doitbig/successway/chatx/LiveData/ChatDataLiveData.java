@@ -2,19 +2,14 @@ package com.doitbig.successway.chatx.LiveData;
 
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
-import android.util.Log;
-import com.doitbig.successway.chatx.DB.Firebase;
 import com.doitbig.successway.chatx.ExceptionMessageHandler;
 import com.doitbig.successway.chatx.Models.ChatData;
-import com.doitbig.successway.chatx.Models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.TreeMap;
 
 public class ChatDataLiveData extends LiveData<List<ChatData>> {
 

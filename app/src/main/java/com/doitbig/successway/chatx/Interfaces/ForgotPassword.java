@@ -1,5 +1,6 @@
 package com.doitbig.successway.chatx.Interfaces;
 
+
 import android.arch.lifecycle.MutableLiveData;
 
 public interface ForgotPassword{

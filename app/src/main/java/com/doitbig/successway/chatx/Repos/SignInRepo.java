@@ -1,6 +1,5 @@
 package com.doitbig.successway.chatx.Repos;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import com.doitbig.successway.chatx.DB.Firebase;
 import com.doitbig.successway.chatx.Interfaces.SignIn;

@@ -8,9 +8,6 @@ import com.doitbig.successway.chatx.Models.FriendData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.TreeMap;
 
 public class FriendsDataLiveData extends LiveData<TreeMap<String, FriendData>> {
@@ -40,22 +37,27 @@ public class FriendsDataLiveData extends LiveData<TreeMap<String, FriendData>> {
             mUser = firebaseAuth.getCurrentUser();
             if (mUser!=null)
             {
-                mUID = mUser.getUid();
+               mUID = mUser.getUid();
                mValueEventListener = mRef.child(mUID).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for(DataSnapshot dS:dataSnapshot.getChildren())
                         {
-                            getFriendUserDetails(dS.getKey());
+                            getFriendUserDetails(dS.getKey(), dS.child("Latest").getValue().toString());
                         }
                     }
 
-                    private void getFriendUserDetails(String key) {
+                    private void getFriendUserDetails(String key, String latestChat) {
                         FirebaseDatabase.getInstance().getReference().child("Users")
                                 .child(key).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                mData.put(key, new FriendData(key, dataSnapshot.child("Username").getValue().toString(), dataSnapshot.child("Active").getValue().toString()));
+                                if(dataSnapshot.hasChildren()) {
+                                    Log.i("FriendsLiveData()", dataSnapshot.child("Username").getValue().toString());
+                                    mData.put(key, new FriendData(key, dataSnapshot.child("Username").getValue().toString(), latestChat, Boolean.valueOf(dataSnapshot.child("Active").getValue().toString()), Long.valueOf(dataSnapshot.child("Timestamp").getValue().toString())));
+                                }
+                                 else
+                                    mData.put(key, new FriendData(key, "User_Deleted", latestChat, false, -1));
                                 setValue(mData);
                             }
 
@@ -68,8 +70,8 @@ public class FriendsDataLiveData extends LiveData<TreeMap<String, FriendData>> {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        setValue(null);
                         mException.setError(databaseError.getMessage());
+                        setValue(null);
                     }
                 });
                 mRef.keepSynced(true);
@@ -77,8 +79,8 @@ public class FriendsDataLiveData extends LiveData<TreeMap<String, FriendData>> {
             }
             else
             {
-                setValue(null);
                 mException.setError("Couldn't retrieve user. Try again.");
+                setValue(null);
             }
         });
     }

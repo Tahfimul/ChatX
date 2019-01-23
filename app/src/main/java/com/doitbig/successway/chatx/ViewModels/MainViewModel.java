@@ -20,4 +20,9 @@ public class MainViewModel extends ViewModel implements Main {
     public void postMessage(ChatData mData) {
         mRepo.postMessage(mData);
     }
+
+    public void setUserSignedOut()
+    {
+        mRepo.setUserSignedOut();
+    }
 }
