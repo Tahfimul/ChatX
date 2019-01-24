@@ -1,17 +1,18 @@
 package com.doitbig.successway.chatx.Activities;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import com.doitbig.successway.chatx.Adapters.ChatWindowRecyclerViewAdapter;
 import com.doitbig.successway.chatx.ExceptionMessageHandler;
@@ -26,7 +27,7 @@ public class ChatWindowActivity extends AppCompatActivity implements View.OnClic
     private RecyclerView.Adapter mRecyclerViewAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private Button mSendBtn;
+    private ImageButton mSendBtn;
     private EditText mMessage;
 
     private ChatWindowViewModel mViewModel;
@@ -66,14 +67,37 @@ public class ChatWindowActivity extends AppCompatActivity implements View.OnClic
             {
                 getSupportActionBar().setSubtitle(Observer.getPresenceMessage());
 
-                Log.i("ChatDataLiveData()", Observer.getPresenceMessage());
                 ((ChatWindowRecyclerViewAdapter) mRecyclerViewAdapter).setData(Observer.getMessagesData());
             }
             else
                 Toast.makeText(this, mException.getError(), Toast.LENGTH_SHORT).show();
         });
 
+        startMessageInputListener();
 
+
+    }
+
+    private void startMessageInputListener() {
+        mMessage.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (count > 0)
+                    mSendBtn.setImageResource(R.drawable.ic_send_black_24dp);
+                else
+                    mSendBtn.setImageResource(0);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @Override
@@ -81,6 +105,7 @@ public class ChatWindowActivity extends AppCompatActivity implements View.OnClic
         if (v.getId() == R.id.message_send)
         {
             mViewModel.sendMessage(mMessage.getText().toString());
+            mMessage.getText().clear();
         }
     }
 

@@ -34,7 +34,8 @@
                 android:textColor="@color/colorGrey"
                 android:id="@+id/latest_chat"
                 android:paddingStart="10dp"
-                android:paddingEnd="10dp"/>
+                android:paddingEnd="10dp"
+                android:maxLines="1"/>
     </LinearLayout>
 
 

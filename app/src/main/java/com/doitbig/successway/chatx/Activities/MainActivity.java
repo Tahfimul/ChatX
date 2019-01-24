@@ -20,6 +20,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private FirebaseAuth mAuth;
+
     private ExceptionMessageHandler mException;
 
     private MainViewModel mViewModel;
@@ -37,14 +39,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recyclerView = findViewById(R.id.recyclerView);
 
+        mAuth = FirebaseAuth.getInstance();
+
+        if (mAuth.getCurrentUser() != null)
+            init();
+        else
+        {
+            startSignIn();
+            finish();
+        }
+    }
+
+    private void init()
+    {
         mAddMessage = findViewById(R.id.add_message);
         mSignOutBtn = findViewById(R.id.sign_out_btn);
         mProgressBar = findViewById(R.id.progressbar);
 
+        mProgressBar.setVisibility(View.VISIBLE);
+
         mAddMessage.setOnClickListener(this);
         mSignOutBtn.setOnClickListener(this);
+
+        mException = new ExceptionMessageHandler();
+
+        setUpRecyclerView();
+
+        initViewModel();
+    }
+
+    private void setUpRecyclerView() {
+
+        recyclerView = findViewById(R.id.recyclerView);
 
         recyclerView.setHasFixedSize(true);
 
@@ -52,15 +79,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
 
-        mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-
-        mException = new ExceptionMessageHandler();
         mAdapter = new MainReyclerViewAdapter();
-
-        mProgressBar.setVisibility(View.VISIBLE);
 
         recyclerView.addItemDecoration(new MainAdapterDecor());
         recyclerView.setAdapter(mAdapter);
+
+    }
+
+    private void initViewModel() {
+        mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
         mViewModel.getFriends("Chats").observe(this, Observer ->{
             mProgressBar.setVisibility(View.INVISIBLE);
@@ -70,8 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, mException.getError(), Toast.LENGTH_LONG).show();
 
         });
-
-
     }
 
     @Override
@@ -83,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.sign_out_btn:
                 mViewModel.setUserSignedOut();
                 signOut();
+                startSignIn();
                 finish();
                 break;
         }
@@ -96,5 +122,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void startNewConversation() {
         Intent newConversation = new Intent(this, StartNewConversation.class);
         startActivity(newConversation);
+    }
+
+    private void startSignIn()
+    {
+        Intent signIn = new Intent(this, SignInActivity.class);
+        startActivity(signIn);
     }
 }
