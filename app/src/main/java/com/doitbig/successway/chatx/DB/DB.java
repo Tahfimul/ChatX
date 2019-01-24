@@ -1,9 +1,10 @@
 package com.doitbig.successway.chatx.DB;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 import com.doitbig.successway.chatx.Interfaces.Main;
 import com.doitbig.successway.chatx.LiveData.FriendsDataLiveData;
-import com.doitbig.successway.chatx.Models.ChatData;
+import com.doitbig.successway.chatx.Models.MessagesData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
@@ -17,7 +18,7 @@ public class DB implements Main {
     }
 
     @Override
-    public void postMessage(ChatData mData) {
+    public void postMessage(MessagesData mData) {
         mRef.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -37,8 +38,10 @@ public class DB implements Main {
     public void setUserSignedOut()
     {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        mUser = mAuth.getCurrentUser();
+        FirebaseUser mUser = mAuth.getCurrentUser();
+        long timeStamp = System.currentTimeMillis()/1000L;
         mRef.child("Users").child(mUser.getUid()).child("Active").setValue(false);
-        mAuth.signOut();
+        mRef.child("Users").child(mUser.getUid()).child("Timestamp").setValue(timeStamp);
+
     }
 }

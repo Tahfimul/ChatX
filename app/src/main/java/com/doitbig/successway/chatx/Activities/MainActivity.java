@@ -16,6 +16,7 @@ import com.doitbig.successway.chatx.Decor.MainAdapterDecor;
 import com.doitbig.successway.chatx.ExceptionMessageHandler;
 import com.doitbig.successway.chatx.R;
 import com.doitbig.successway.chatx.ViewModels.MainViewModel;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -81,9 +82,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.sign_out_btn:
                 mViewModel.setUserSignedOut();
+                signOut();
                 finish();
                 break;
         }
+    }
+
+    private void signOut() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
     }
 
     private void startNewConversation() {

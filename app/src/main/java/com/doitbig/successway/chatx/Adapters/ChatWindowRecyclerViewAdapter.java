@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.doitbig.successway.chatx.Models.ChatData;
+import com.doitbig.successway.chatx.Models.MessagesData;
 import com.doitbig.successway.chatx.R;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class ChatWindowRecyclerViewAdapter extends RecyclerView.Adapter {
             mMessage = itemView.findViewById(R.id.message);
         }
 
-        void bind(ChatData mMessage)
+        void bind(MessagesData mMessage)
         {
             this.mMessage.setText(mMessage.getVal());
         }
@@ -37,17 +38,17 @@ public class ChatWindowRecyclerViewAdapter extends RecyclerView.Adapter {
             mMessage = itemView.findViewById(R.id.message);
         }
 
-        void bind(ChatData mMessage)
+        void bind(MessagesData mMessage)
         {
             this.mMessage.setText(mMessage.getVal());
         }
     }
 
-    private static List<ChatData> mMessages;
+    private static List<MessagesData> mMessages;
     private final int STATE_RECEIVED_MESSAGE = 1;
     private final int STATE_SENT_MESSAGE = 0;
 
-    public void setData(List<ChatData> mMessages)
+    public void setData(List<MessagesData> mMessages)
     {
         this.mMessages = mMessages;
         notifyDataSetChanged();

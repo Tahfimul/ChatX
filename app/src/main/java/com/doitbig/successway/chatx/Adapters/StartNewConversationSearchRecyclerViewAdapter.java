@@ -23,10 +23,12 @@ public class StartNewConversationSearchRecyclerViewAdapter extends RecyclerView.
 
         ImageView mUserStatusIndicator;
         TextView mUsername;
+        ImageView mCheckBox;
         CustomViewHolder(@NonNull View itemView) {
             super(itemView);
             mUsername = itemView.findViewById(R.id.user_name);
             mUserStatusIndicator = itemView.findViewById(R.id.status_indicator);
+            mCheckBox = itemView.findViewById(R.id.checkbox);
         }
 
         void bind(UserData mUser)
@@ -38,16 +40,16 @@ public class StartNewConversationSearchRecyclerViewAdapter extends RecyclerView.
 
         private void setIsHighlighted(UserData mUser) {
             if (mUser.ismHighlighted())
-                mUsername.setBackgroundResource(R.drawable.light_rounded_corner_background_grey);
+                mCheckBox.setImageResource(R.drawable.ic_check);
             else
-                mUsername.setBackgroundResource(0);
+                mCheckBox.setImageResource(0);
         }
 
         private void setStatusIndicator(UserData mUser) {
             if (mUser.isUserActive())
-                mUserStatusIndicator.setBackgroundResource(R.drawable.ic_flat_user_status_active);
+                mUserStatusIndicator.setImageResource(R.drawable.ic_flat_user_status_active);
             else
-                mUserStatusIndicator.setBackgroundResource(R.drawable.ic_flat_user_status_inactive);
+                mUserStatusIndicator.setImageResource(R.drawable.ic_flat_user_status_inactive);
         }
     }
 
@@ -85,7 +87,7 @@ public class StartNewConversationSearchRecyclerViewAdapter extends RecyclerView.
                     mCurrentHighlightedUser = mUsers.get(i);
                     mCurrentHighlightedUser.setmHighlighted(true);
                     mCurrentHighLightedPosition = i;
-                    new ChatWindowRepo().setFriendUser((new FriendData(mCurrentHighlightedUser.getmUID(), mCurrentHighlightedUser.getmUsername(), "" ,mCurrentHighlightedUser.isUserActive(), mCurrentHighlightedUser.getmTimeStamp())));
+                    new ChatWindowRepo().setFriendUser((new FriendData(mCurrentHighlightedUser.getmUID(), mCurrentHighlightedUser.getmUsername(), "" ,mCurrentHighlightedUser.isUserActive())));
                 }
                 else if (mCurrentHighlightedUser.getmUsername().equals(mUsers.get(i).getmUsername())&&mCurrentHighLightedPosition==i) {
                     mCurrentHighlightedUser.setmHighlighted(false);
@@ -98,7 +100,7 @@ public class StartNewConversationSearchRecyclerViewAdapter extends RecyclerView.
                 mUsers.get(i).setmHighlighted(true);
                 mCurrentHighlightedUser = mUsers.get(i);
                 mCurrentHighLightedPosition = i;
-                new ChatWindowRepo().setFriendUser(new FriendData(mCurrentHighlightedUser.getmUID(), mCurrentHighlightedUser.getmUsername(), "" ,mCurrentHighlightedUser.isUserActive(), mCurrentHighlightedUser.getmTimeStamp()));
+                new ChatWindowRepo().setFriendUser(new FriendData(mCurrentHighlightedUser.getmUID(), mCurrentHighlightedUser.getmUsername(), "" ,mCurrentHighlightedUser.isUserActive()));
             }
 
             notifyDataSetChanged();

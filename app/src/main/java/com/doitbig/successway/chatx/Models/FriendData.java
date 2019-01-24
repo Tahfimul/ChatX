@@ -5,16 +5,12 @@ public class FriendData {
     String mUser;
     String mLatestMessage;
     boolean mStatus;
-    long mTimeStamp;
-    String mActiveMessage;
 
-    public FriendData(String mUID, String mUser, String mLatestMessage, boolean mStatus, long mTimeStamp)
-    {
+    public FriendData(String mUID, String mUser, String mLatestMessage, boolean mStatus) {
         this.mUID = mUID;
         this.mUser = mUser;
         this.mLatestMessage = mLatestMessage;
         this.mStatus = mStatus;
-        this.mTimeStamp = mTimeStamp;
     }
 
     public void setmUID(String mUID) {
@@ -47,21 +43,5 @@ public class FriendData {
 
     public boolean isActive() {
         return mStatus;
-    }
-
-    public void setmTimeStamp(long mTimeStamp) {
-        this.mTimeStamp = mTimeStamp;
-    }
-
-    public long getmTimeStamp() {
-        return mTimeStamp;
-    }
-
-    public String getmActiveMessage() {
-        return mActiveMessage;
-    }
-
-    public void setmActiveMessage(String mActiveMessage) {
-        this.mActiveMessage = mActiveMessage;
     }
 }

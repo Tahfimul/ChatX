@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,12 +59,15 @@ public class ChatWindowActivity extends AppCompatActivity implements View.OnClic
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setSubtitle(mViewModel.getFriendUser().getmActiveMessage());
+        getSupportActionBar().setTitle(mViewModel.getFriendUser().getmUser());
 
         mViewModel.getMessages(mViewModel.getFriendUser().getmUID()).observe(this, Observer->{
             if (Observer!=null)
             {
-                ((ChatWindowRecyclerViewAdapter) mRecyclerViewAdapter).setData(Observer);
+                getSupportActionBar().setSubtitle(Observer.getPresenceMessage());
+
+                Log.i("ChatDataLiveData()", Observer.getPresenceMessage());
+                ((ChatWindowRecyclerViewAdapter) mRecyclerViewAdapter).setData(Observer.getMessagesData());
             }
             else
                 Toast.makeText(this, mException.getError(), Toast.LENGTH_SHORT).show();
@@ -83,11 +87,5 @@ public class ChatWindowActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startMain();
-    }
-
-    private void startMain() {
-        Intent main = new Intent(this, MainActivity.class);
-        startActivity(main);
     }
 }

@@ -4,6 +4,7 @@ import com.doitbig.successway.chatx.DB.DB;
 import com.doitbig.successway.chatx.Interfaces.Main;
 import com.doitbig.successway.chatx.LiveData.FriendsDataLiveData;
 import com.doitbig.successway.chatx.Models.ChatData;
+import com.doitbig.successway.chatx.Models.MessagesData;
 
 public class MainRepo implements Main {
 
@@ -15,7 +16,7 @@ public class MainRepo implements Main {
     }
 
     @Override
-    public void postMessage(ChatData mData) {
+    public void postMessage(MessagesData mData) {
         mDB.postMessage(mData);
     }
 

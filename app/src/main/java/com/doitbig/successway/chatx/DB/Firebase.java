@@ -2,6 +2,7 @@ package com.doitbig.successway.chatx.DB;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import com.doitbig.successway.chatx.ExceptionMessageHandler;
 import com.doitbig.successway.chatx.Interfaces.*;
 import com.doitbig.successway.chatx.Models.User;

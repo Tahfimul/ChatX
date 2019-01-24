@@ -16,7 +16,7 @@ public class ChatWindowRepo implements ChatWindow {
     static FriendData mFriendUser;
 
     @Override
-    public LiveData<List<ChatData>> getMessages(String mFriendUser) {
+    public LiveData<ChatData> getMessages(String mFriendUser) {
         return new ChatDataLiveData(mFriendUser);
     }
 

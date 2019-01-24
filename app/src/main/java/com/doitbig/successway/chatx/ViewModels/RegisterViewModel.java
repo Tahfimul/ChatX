@@ -12,17 +12,22 @@ public class RegisterViewModel extends ViewModel implements UserRegister {
     UserRegisterRepo mRepo = new UserRegisterRepo();
     @Override
     public void submitUser(User user) {
-        if(InputsNotEmpty(user))
+        if(InputsCheck(user))
             mRepo.submitUser(user);
         else
             getStatus().setValue(false);
     }
 
-    private boolean InputsNotEmpty(User user) {
+    private boolean InputsCheck(User user) {
 
+        ExceptionMessageHandler exceptionMessageHandler = new ExceptionMessageHandler();
         if (user.getmUserName().isEmpty()||user.getmUserEmail().isEmpty()||user.getmUserPassword().isEmpty()) {
-            ExceptionMessageHandler exceptionMessageHandler = new ExceptionMessageHandler();
             exceptionMessageHandler.setError("Input all fields");
+            return false;
+        }
+        else if (user.getmUserName().length() > 20)
+        {
+            exceptionMessageHandler.setError("Username can't have more than 20 characters");
             return false;
         }
 

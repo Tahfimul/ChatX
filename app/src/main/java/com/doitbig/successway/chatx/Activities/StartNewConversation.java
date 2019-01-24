@@ -94,8 +94,10 @@ public class StartNewConversation extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         if (v.getId() == R.id.send_new_message_btn)
         {
-            if (((StartNewConversationSearchRecyclerViewAdapter)mRecyclerViewAdapter).getmCurrentHighlightedUser()!=null)
+            if (((StartNewConversationSearchRecyclerViewAdapter)mRecyclerViewAdapter).getmCurrentHighlightedUser()!=null) {
                 startChatWindow();
+                finish();
+            }
             else
                 Toast.makeText(this, "Choose a user", Toast.LENGTH_SHORT).show();
         }

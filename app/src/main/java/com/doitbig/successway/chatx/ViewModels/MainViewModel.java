@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel;
 import com.doitbig.successway.chatx.Interfaces.Main;
 import com.doitbig.successway.chatx.LiveData.FriendsDataLiveData;
 import com.doitbig.successway.chatx.Models.ChatData;
+import com.doitbig.successway.chatx.Models.MessagesData;
 import com.doitbig.successway.chatx.Repos.MainRepo;
 
 public class MainViewModel extends ViewModel implements Main {
@@ -17,7 +18,7 @@ public class MainViewModel extends ViewModel implements Main {
     }
 
     @Override
-    public void postMessage(ChatData mData) {
+    public void postMessage(MessagesData mData) {
         mRepo.postMessage(mData);
     }
 

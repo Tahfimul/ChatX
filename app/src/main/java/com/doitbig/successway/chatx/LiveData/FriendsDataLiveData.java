@@ -54,10 +54,10 @@ public class FriendsDataLiveData extends LiveData<TreeMap<String, FriendData>> {
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if(dataSnapshot.hasChildren()) {
                                     Log.i("FriendsLiveData()", dataSnapshot.child("Username").getValue().toString());
-                                    mData.put(key, new FriendData(key, dataSnapshot.child("Username").getValue().toString(), latestChat, Boolean.valueOf(dataSnapshot.child("Active").getValue().toString()), Long.valueOf(dataSnapshot.child("Timestamp").getValue().toString())));
+                                    mData.put(key, new FriendData(key, dataSnapshot.child("Username").getValue().toString(), latestChat, Boolean.valueOf(dataSnapshot.child("Active").getValue().toString())));
                                 }
                                  else
-                                    mData.put(key, new FriendData(key, "User_Deleted", latestChat, false, -1));
+                                    mData.put(key, new FriendData(key, "User_Deleted", latestChat, false));
                                 setValue(mData);
                             }
 

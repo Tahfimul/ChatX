@@ -1,50 +1,32 @@
 package com.doitbig.successway.chatx.Models;
 
+import java.util.List;
+
 public class ChatData {
 
-    int state;
-    String timestamp;
-    String val;
-    String user;
+    String presenceMessage;
+    List<MessagesData> messagesData;
 
-    public ChatData(int state, String timestamp, String val, String user)
+    public ChatData(String presenceMessage, List<MessagesData> messagesData)
     {
-        this.state = state;
-        this.timestamp = timestamp;
-        this.user = user;
-        this.val = val;
+        this.presenceMessage = presenceMessage;
+        this.messagesData = messagesData;
+
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setPresenceMessage(String presenceMessage) {
+        this.presenceMessage = presenceMessage;
     }
 
-    public int getState() {
-        return state;
+    public String getPresenceMessage() {
+        return presenceMessage;
     }
 
-    public String getVal()
-    {
-        return this.val;
+    public void setMessagesData(List<MessagesData> messagesData) {
+        this.messagesData = messagesData;
     }
 
-    public void setVal(String val) {
-        this.val = val;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
+    public List<MessagesData> getMessagesData() {
+        return messagesData;
     }
 }
