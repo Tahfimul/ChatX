@@ -48,8 +48,7 @@
                 android:maxLength="1000"
                 android:maxLines="5"
                 android:isScrollContainer="true"
-                android:scrollbars="vertical"
-                android:inputType="noned"/>
+                android:scrollbars="vertical"/>
         <ImageButton
                 android:background="@drawable/heavy_filled_round_grey_background"
                 android:layout_marginTop="5dp"

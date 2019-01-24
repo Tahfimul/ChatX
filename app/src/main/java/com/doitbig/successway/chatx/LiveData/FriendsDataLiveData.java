@@ -41,9 +41,11 @@ public class FriendsDataLiveData extends LiveData<TreeMap<String, FriendData>> {
                mValueEventListener = mRef.child(mUID).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (mData!=null) mData.clear();
                         for(DataSnapshot dS:dataSnapshot.getChildren())
                         {
-                            getFriendUserDetails(dS.getKey(), dS.child("Latest").getValue().toString());
+                            if(dS.child("Latest").getValue()!=null)
+                                getFriendUserDetails(dS.getKey(), dS.child("Latest").getValue().toString());
                         }
                     }
 
