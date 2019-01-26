@@ -40,7 +40,7 @@ public class StartNewConversationSearchRecyclerViewAdapter extends RecyclerView.
 
         private void setIsHighlighted(UserData mUser) {
             if (mUser.ismHighlighted())
-                mCheckBox.setImageResource(R.drawable.ic_check);
+                mCheckBox.setImageResource(R.drawable.ic_check_grey);
             else
                 mCheckBox.setImageResource(0);
         }

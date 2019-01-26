@@ -1,18 +1,22 @@
 package com.doitbig.successway.chatx.Adapters;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.Log;
+import android.view.*;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.doitbig.successway.chatx.Activities.ChatWindowActivity;
+import com.doitbig.successway.chatx.Interfaces.ClickListener;
 import com.doitbig.successway.chatx.Models.FriendData;
 import com.doitbig.successway.chatx.R;
 import com.doitbig.successway.chatx.Repos.ChatWindowRepo;
+import eu.davidea.flipview.FlipView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,19 +24,111 @@ import java.util.TreeMap;
 
 public class MainReyclerViewAdapter extends RecyclerView.Adapter<MainReyclerViewAdapter.CustomViewHolder> {
 
-    public static class CustomViewHolder extends RecyclerView.ViewHolder{
-        LinearLayout mParentLayout;
-        ImageView mUserSatusIndicator;
-        TextView mUserName;
-        TextView mLatestChat;
+    public static class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener{
+
+        private FlipView mUserSatusIndicator;
+        private TextView mUserName;
+        private TextView mLatestChat;
+
+        private Context mContext;
+
+        private FriendData mFriendData;
+
+        private ClickListener clicklistener;
+        private GestureDetector gestureDetector;
+
+        private boolean isChecked = false;
+
+        @SuppressLint("ClickableViewAccessibility")
         CustomViewHolder(@NonNull View itemView) {
             super(itemView);
-            mParentLayout = itemView.findViewById(R.id.parent);
             mUserSatusIndicator = itemView.findViewById(R.id.status_indicator);
             mUserName = itemView.findViewById(R.id.user_name);
             mLatestChat = itemView.findViewById(R.id.latest_chat);
+
+            mContext = itemView.getContext();
+
+            itemView.setOnTouchListener(this);
         }
 
+        private void bind(FriendData mFriendData)
+        {
+            this.mFriendData = mFriendData;
+
+            setIndicatorStatus();
+
+            mUserName.setText(mFriendData.getmUser());
+            mLatestChat.setText(mFriendData.getmLatestMessage());
+
+            this.clicklistener= new ClickListener() {
+                @Override
+                public void onClick() {
+                    new ChatWindowRepo().setFriendUser(mFriendData);
+                    Intent chatWindow = new Intent(mContext, ChatWindowActivity.class);
+                    mContext.startActivity(chatWindow);
+                }
+
+                @Override
+                public void onLongClick() {
+
+                    if (isChecked)
+                    {
+                        isChecked = false;
+                        setIndicatorStatus();
+                        mUserSatusIndicator.flip(isChecked);
+                    }
+                    else
+                    {
+                        isChecked = true;
+                        setCheckedState();
+                        mUserSatusIndicator.flip(isChecked);
+                    }
+
+                }
+            };
+
+            gestureDetector=new GestureDetector(mContext,new GestureDetector.SimpleOnGestureListener(){
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+
+                @Override
+                public boolean onSingleTapConfirmed(MotionEvent e) {
+                    if(clicklistener!=null)
+                        clicklistener.onClick();
+                    return super.onSingleTapConfirmed(e);
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    if(clicklistener!=null){
+                        clicklistener.onLongClick();
+                    }
+                }
+            });
+        }
+
+        private void setIndicatorStatus() {
+            if (mFriendData.isActive())
+                mUserSatusIndicator.setFrontImage(R.drawable.ic_round_user_status_active);
+
+            else
+                mUserSatusIndicator.setFrontImage(R.drawable.ic_round_user_status_inactive);
+
+        }
+
+        private void setCheckedState()
+        {
+            mUserSatusIndicator.setFrontImage(R.drawable.ic_check_white);
+        }
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            gestureDetector.onTouchEvent(event);
+
+            return true;
+        }
     }
 
     private List<FriendData> mData = new ArrayList<>();
@@ -63,20 +159,7 @@ public class MainReyclerViewAdapter extends RecyclerView.Adapter<MainReyclerView
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder customViewHolder, int i) {
-
-        if (mData.get(i).isActive())
-            customViewHolder.mUserSatusIndicator.setBackgroundResource(R.drawable.ic_round_user_status_active);
-        else
-            customViewHolder.mUserSatusIndicator.setBackgroundResource(R.drawable.ic_round_user_status_inactive);
-
-        customViewHolder.mUserName.setText(mData.get(i).getmUser());
-        customViewHolder.mLatestChat.setText(mData.get(i).getmLatestMessage());
-        customViewHolder.mParentLayout.setOnClickListener(v -> {
-            new ChatWindowRepo().setFriendUser(mData.get(i));
-            Intent chatWindow = new Intent(customViewHolder.itemView.getContext(), ChatWindowActivity.class);
-            customViewHolder.itemView.getContext().startActivity(chatWindow);
-
-        });
+        customViewHolder.bind(mData.get(i));
     }
 
     @Override

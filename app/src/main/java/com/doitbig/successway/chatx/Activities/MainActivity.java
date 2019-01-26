@@ -14,7 +14,9 @@ import android.widget.Toast;
 import com.doitbig.successway.chatx.Adapters.MainReyclerViewAdapter;
 import com.doitbig.successway.chatx.Decor.MainAdapterDecor;
 import com.doitbig.successway.chatx.ExceptionMessageHandler;
+import com.doitbig.successway.chatx.Interfaces.ClickListener;
 import com.doitbig.successway.chatx.R;
+import com.doitbig.successway.chatx.RecyclerViewTouch.RecyclerTouchListener;
 import com.doitbig.successway.chatx.ViewModels.MainViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -82,6 +84,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAdapter = new MainReyclerViewAdapter();
 
         recyclerView.addItemDecoration(new MainAdapterDecor());
+//        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this,
+//                recyclerView, new ClickListener() {
+//            @Override
+//            public void onClick(View view, final int position) {
+//
+//            }
+//
+//            @Override
+//            public void onLongClick(View view, int position) {
+//                view.findViewById(R.id.status_indicator).setBackgroundResource(R.drawable.ic_check_grey);
+//            }
+//        }));
         recyclerView.setAdapter(mAdapter);
 
     }
