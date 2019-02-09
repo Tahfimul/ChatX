@@ -6,10 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.doitbig.successway.chatx.Models.ChatData;
+import android.widget.Toast;
 import com.doitbig.successway.chatx.Models.MessagesData;
 import com.doitbig.successway.chatx.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChatWindowRecyclerViewAdapter extends RecyclerView.Adapter {
@@ -54,6 +55,29 @@ public class ChatWindowRecyclerViewAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public MessagesData getItemByPosition(int position)
+    {
+        return mMessages.get(position);
+    }
+
+    public void removeItemByPosition(int position)
+    {
+        List<MessagesData> temp = new ArrayList<>();
+        for(int i=0; i<mMessages.size(); i++)
+        {
+            if(i!=position)
+                temp.add(mMessages.get(i));
+        }
+        updateList(temp);
+    }
+
+    private void updateList(List<MessagesData> messagesData)
+    {
+        mMessages.clear();
+        mMessages = messagesData;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemViewType(int position) {
         if (mMessages.get(position).getState()==1)
@@ -81,6 +105,7 @@ public class ChatWindowRecyclerViewAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
 
+        System.out.println(mMessages.size()+"OnBindViewHolder");
         switch (viewHolder.getItemViewType())
         {
             case STATE_RECEIVED_MESSAGE:

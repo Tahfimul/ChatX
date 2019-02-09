@@ -7,8 +7,6 @@ import com.doitbig.successway.chatx.LiveData.ChatDataLiveData;
 import com.doitbig.successway.chatx.Models.ChatData;
 import com.doitbig.successway.chatx.Models.FriendData;
 
-import java.util.List;
-
 public class ChatWindowRepo implements ChatWindow {
 
     Firebase mDB = new Firebase();

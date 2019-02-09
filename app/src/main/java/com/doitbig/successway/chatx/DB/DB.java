@@ -4,14 +4,22 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import com.doitbig.successway.chatx.Interfaces.Main;
 import com.doitbig.successway.chatx.LiveData.FriendsDataLiveData;
+import com.doitbig.successway.chatx.Models.FriendData;
 import com.doitbig.successway.chatx.Models.MessagesData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
+
 public class DB implements Main {
-    DatabaseReference mRef = FirebaseDatabase.getInstance().getReference();
+
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser mUser;
+
+    DatabaseReference mRef = FirebaseDatabase.getInstance().getReference();
     @Override
     public FriendsDataLiveData getFriends(String location) {
         return null;
@@ -37,11 +45,28 @@ public class DB implements Main {
 
     public void setUserSignedOut()
     {
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser mUser = mAuth.getCurrentUser();
-        long timeStamp = System.currentTimeMillis()/1000L;
-        mRef.child("Users").child(mUser.getUid()).child("Active").setValue(false);
-        mRef.child("Users").child(mUser.getUid()).child("Timestamp").setValue(timeStamp);
+        mAuth.addAuthStateListener(firebaseAuth -> {
+           mUser = firebaseAuth.getCurrentUser();
+            if (mUser!=null)
+            {
+                long timeStamp = System.currentTimeMillis() / 1000L;
+                mRef.child("Users").child(mUser.getUid()).child("Active").setValue(false);
+                mRef.child("Users").child(mUser.getUid()).child("Timestamp").setValue(timeStamp);
+            }
 
+        });
+    }
+
+    public void updateItems(List<String> mItems)
+    {
+        mAuth.addAuthStateListener(firebaseAuth -> {
+            mUser = firebaseAuth.getCurrentUser();
+
+            for(String key:mItems)
+            {
+               mRef.child("Chats").child(mUser.getUid()).child(key).removeValue();
+            }
+
+        });
     }
 }

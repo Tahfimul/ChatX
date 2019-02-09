@@ -4,7 +4,10 @@ import com.doitbig.successway.chatx.DB.DB;
 import com.doitbig.successway.chatx.Interfaces.Main;
 import com.doitbig.successway.chatx.LiveData.FriendsDataLiveData;
 import com.doitbig.successway.chatx.Models.ChatData;
+import com.doitbig.successway.chatx.Models.FriendData;
 import com.doitbig.successway.chatx.Models.MessagesData;
+
+import java.util.List;
 
 public class MainRepo implements Main {
 
@@ -23,5 +26,10 @@ public class MainRepo implements Main {
     public void setUserSignedOut()
     {
         mDB.setUserSignedOut();
+    }
+
+    public void updateItems(List<String> mItems)
+    {
+        mDB.updateItems(mItems);
     }
 }
